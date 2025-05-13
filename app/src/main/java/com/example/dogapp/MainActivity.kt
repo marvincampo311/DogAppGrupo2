@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieAnimationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,14 +16,25 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        val huellaAnim = findViewById<LottieAnimationView>(R.id.huellaAnim)
+            huellaAnim.setOnClickListener {
+
+
+                huellaAnim.setOnClickListener {
+                    showBiometricPrompt()
+                }
+
+            }
+
+
 
 
         val biometricManager = androidx.biometric.BiometricManager.from(this)
 
 
-        when(biometricManager.canAuthenticate(BIOMETRIC_STRONG)){
+        when(biometricManager.canAuthenticate(BIOMETRIC_STRONG )){
             androidx.biometric.BiometricManager.BIOMETRIC_SUCCESS -> {
-                showBiometricPrompt()
+                showToast("presiona la huella para autenticar")
 
             }
 
@@ -47,7 +59,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBiometricPrompt(){
-  val executor = ContextCompat.getMainExecutor(this)
+        val executor = ContextCompat.getMainExecutor(this)
 
         val biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback(){
@@ -69,9 +81,9 @@ class MainActivity : AppCompatActivity() {
             })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("AUTENTICAICON BIOMETRICA")
+            .setTitle("AUTENTICACION BIOMETRICA")
             .setSubtitle("USA TU HUELLA DIJITAL PARA CONTINUAR")
-            .setNegativeButtonText("cCANCELAR")
+            .setNegativeButtonText("CANCELAR")
             .build()
 
 
@@ -85,3 +97,6 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, message , Toast.LENGTH_LONG).show()
         }
     }
+
+
+
